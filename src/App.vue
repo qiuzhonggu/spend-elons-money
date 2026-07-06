@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import CartPanel from './components/CartPanel.vue'
 import CelebrationOverlay from './components/CelebrationOverlay.vue'
+import GameLab from './components/GameLab.vue'
 import ProductCard from './components/ProductCard.vue'
 import StatsPanel from './components/StatsPanel.vue'
 import { INITIAL_NET_WORTH } from './stores/spendingCore'
@@ -47,6 +48,18 @@ const filteredProducts = computed(() => {
         />
       </section>
 
+      <GameLab
+        :title="store.spendingTitle"
+        :mission="store.featuredMission"
+        :milestone="store.milestoneState"
+        :achievements="store.achievements"
+        :facts="store.comparisonFacts"
+        :categories="store.categorySpend"
+        :spree-count="store.spreeCount"
+        :latest-purchase="store.latestPurchase"
+        :surprise-event="store.surpriseEvent"
+      />
+
       <section class="toolbar" aria-label="商品筛选">
         <label>
           <span>搜索</span>
@@ -75,6 +88,8 @@ const filteredProducts = computed(() => {
               :quantity="store.quantityFor(product.id)"
               :disabled="!store.canBuy(product)"
               @buy="store.buy"
+              @buy-many="store.buyMany"
+              @buy-max="store.buyMax"
               @remove="store.remove"
             />
           </TransitionGroup>

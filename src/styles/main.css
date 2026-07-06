@@ -176,6 +176,143 @@ main {
   line-height: 1.08;
 }
 
+.game-lab {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  gap: 14px;
+  margin: 24px 0;
+}
+
+.lab-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid rgba(22, 27, 34, 0.08);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 16px 44px rgba(30, 40, 60, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.lab-card h2,
+.lab-card h3,
+.lab-card p {
+  margin: 0;
+}
+
+.lab-card h2 {
+  font-size: clamp(26px, 3vw, 42px);
+  line-height: 1.05;
+}
+
+.lab-card h3 {
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.lab-card p:not(.eyebrow) {
+  margin-top: 10px;
+  color: #5c6675;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.rank-card {
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(6, 10, 16, 0.9), rgba(36, 107, 254, 0.76)),
+    url("https://images.unsplash.com/photo-1457364887197-9150188c107b?auto=format&fit=crop&w=1200&q=80")
+      center / cover;
+}
+
+.rank-card .eyebrow,
+.rank-card p:not(.eyebrow) {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.event-card {
+  border-color: rgba(255, 122, 89, 0.34);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(255, 244, 237, 0.94));
+}
+
+.spotlight-card {
+  border-color: rgba(0, 166, 118, 0.26);
+}
+
+.mini-progress {
+  height: 8px;
+  margin: 14px 0 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e6e9ee;
+}
+
+.mini-progress span {
+  display: block;
+  height: 100%;
+  min-width: 4px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #00a676, #ff7a59);
+  transition: width 360ms ease;
+}
+
+.lab-card small,
+.empty-line {
+  color: #6f7a8a;
+}
+
+.badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge-list span,
+.muted-badge {
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 800;
+  background: #edf2f7;
+}
+
+.badge-list span:not(.muted-badge) {
+  color: #083b30;
+  background: #dff8ef;
+}
+
+.fact-list,
+.category-rank {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fact-list li,
+.category-rank li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #5c6675;
+  font-size: 13px;
+}
+
+.fact-list strong,
+.category-rank strong {
+  color: #171717;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.category-rank span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .toolbar {
   position: sticky;
   top: 85px;
@@ -415,6 +552,34 @@ main {
   opacity: 0.45;
 }
 
+.quick-buy-row {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.quick-buy-row button {
+  height: 38px;
+  border: 1px solid #d8dde6;
+  border-radius: 8px;
+  color: #171717;
+  font-size: 13px;
+  font-weight: 800;
+  background: #fff;
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.quick-buy-row button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: #edf2f7;
+}
+
+.quick-buy-row button:disabled {
+  color: #b4bdc9;
+}
+
 .cart-panel {
   position: sticky;
   top: 170px;
@@ -595,6 +760,10 @@ main {
     grid-template-columns: 1fr;
   }
 
+  .game-lab {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .cart-panel {
     position: static;
     max-height: none;
@@ -615,6 +784,7 @@ main {
   .header-metrics,
   .stats-grid,
   .toolbar,
+  .game-lab,
   .grid-inner {
     grid-template-columns: 1fr;
   }

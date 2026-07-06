@@ -16,7 +16,7 @@ defineProps({
   },
 })
 
-defineEmits(['buy', 'remove'])
+defineEmits(['buy', 'buyMany', 'buyMax', 'remove'])
 </script>
 
 <template>
@@ -42,6 +42,10 @@ defineEmits(['buy', 'remove'])
       <button class="buy-button" type="button" :disabled="disabled" @click="$emit('buy', product.id)">
         {{ disabled ? '余额不足' : '购买' }}
       </button>
+      <div class="quick-buy-row">
+        <button type="button" :disabled="disabled" @click="$emit('buyMany', product.id, 10)">+10</button>
+        <button type="button" :disabled="disabled" @click="$emit('buyMax', product.id)">买到买不起</button>
+      </div>
     </div>
   </article>
 </template>
