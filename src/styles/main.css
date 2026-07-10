@@ -16,10 +16,7 @@
 body {
   margin: 0;
   min-width: 320px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 248, 251, 0.96)),
-    url("https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=2200&q=80")
-      center top / cover fixed;
+  background: #f7f8fb;
 }
 
 button,
@@ -126,8 +123,7 @@ main {
   color: #fff;
   background:
     linear-gradient(90deg, rgba(5, 8, 12, 0.78), rgba(5, 8, 12, 0.2)),
-    url("https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=1600&q=80")
-      center / cover;
+    var(--hero-image) center / cover;
   overflow: hidden;
 }
 
@@ -220,8 +216,7 @@ main {
   color: #fff;
   background:
     linear-gradient(135deg, rgba(6, 10, 16, 0.9), rgba(36, 107, 254, 0.76)),
-    url("https://images.unsplash.com/photo-1457364887197-9150188c107b?auto=format&fit=crop&w=1200&q=80")
-      center / cover;
+    var(--rank-image) center / cover;
 }
 
 .rank-card .eyebrow,
@@ -311,6 +306,159 @@ main {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.playground-panel {
+  margin: 24px 0;
+  padding: 22px;
+  border: 1px solid rgba(22, 27, 34, 0.08);
+  background: #111827;
+  color: #fff;
+}
+
+.playground-heading,
+.collection-row,
+.action-history li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.playground-heading h2 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0;
+}
+
+.playground-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.playground-actions button {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.playground-actions .random-buy {
+  color: #111827;
+  background: #70e1b6;
+}
+
+.playground-actions button:disabled {
+  opacity: 0.42;
+}
+
+.playground-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.25fr 1fr;
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.playground-grid > div {
+  min-width: 0;
+}
+
+.advisor-block > strong {
+  display: block;
+  min-height: 66px;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.collection-row {
+  margin-top: 18px;
+  color: #b6c0cf;
+  font-size: 13px;
+}
+
+.collection-track {
+  height: 8px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.collection-track span {
+  display: block;
+  height: 100%;
+  background: #70e1b6;
+  transition: width 300ms ease;
+}
+
+.bundle-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.bundle-list button {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  color: #fff;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.06);
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.bundle-list button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.bundle-list strong,
+.bundle-list span {
+  display: block;
+}
+
+.bundle-list strong {
+  font-size: 14px;
+}
+
+.bundle-list span {
+  margin-top: 6px;
+  color: #aeb8c7;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.action-history {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.action-history li {
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+}
+
+.action-history li span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.action-history li strong {
+  color: #70e1b6;
+  white-space: nowrap;
+}
+
+.playground-panel .empty-line {
+  color: #aeb8c7;
 }
 
 .toolbar {
@@ -764,6 +912,14 @@ main {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .playground-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .history-block {
+    grid-column: 1 / -1;
+  }
+
   .cart-panel {
     position: static;
     max-height: none;
@@ -787,6 +943,25 @@ main {
   .game-lab,
   .grid-inner {
     grid-template-columns: 1fr;
+  }
+
+  .playground-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .playground-actions,
+  .playground-grid,
+  .bundle-list {
+    grid-template-columns: 1fr;
+  }
+
+  .playground-actions {
+    display: grid;
+  }
+
+  .history-block {
+    grid-column: auto;
   }
 
   .header-metrics {

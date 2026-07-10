@@ -1,5 +1,8 @@
 <script setup>
 import { formatCompactCurrency } from '../utils/money'
+import { resolveProductImage } from '../utils/productImage'
+
+const rankStyle = { '--rank-image': `url("${resolveProductImage('/products/starship-program.webp')}")` }
 
 defineProps({
   title: {
@@ -43,7 +46,7 @@ defineProps({
 
 <template>
   <section class="game-lab" aria-label="趣味玩法面板">
-    <div class="lab-card rank-card">
+    <div class="lab-card rank-card" :style="rankStyle">
       <p class="eyebrow">Level</p>
       <h2>{{ title.label }}</h2>
       <p>当前连买热度：{{ spreeCount }}。连续购买越多，越容易触发惊喜事件。</p>

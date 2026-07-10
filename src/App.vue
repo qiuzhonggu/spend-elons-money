@@ -5,13 +5,16 @@ import CartPanel from './components/CartPanel.vue'
 import CelebrationOverlay from './components/CelebrationOverlay.vue'
 import GameLab from './components/GameLab.vue'
 import ProductCard from './components/ProductCard.vue'
+import PlaygroundPanel from './components/PlaygroundPanel.vue'
 import StatsPanel from './components/StatsPanel.vue'
 import { INITIAL_NET_WORTH } from './stores/spendingCore'
 import { useSpendingStore } from './stores/spendingStore'
+import { resolveProductImage } from './utils/productImage'
 
 const store = useSpendingStore()
 const search = ref('')
 const selectedCategory = ref('全部')
+const heroStyle = { '--hero-image': `url("${resolveProductImage('/products/rocket-engine.webp')}")` }
 
 const categories = computed(() => ['全部', ...new Set(store.products.map((product) => product.category))])
 
@@ -35,7 +38,7 @@ const filteredProducts = computed(() => {
 
     <main>
       <section class="hero">
-        <div>
+        <div :style="heroStyle">
           <p class="eyebrow">Net worth simulator</p>
           <h2>从一杯咖啡到整套航天计划，看看 1.1 万亿美元到底有多难花完。</h2>
         </div>
@@ -58,6 +61,16 @@ const filteredProducts = computed(() => {
         :spree-count="store.spreeCount"
         :latest-purchase="store.latestPurchase"
         :surprise-event="store.surpriseEvent"
+      />
+
+      <PlaygroundPanel
+        :bundles="store.bundles"
+        :collection="store.collectionProgress"
+        :advisor="store.advisorMessage"
+        :history="store.actionHistory"
+        @random="store.buyRandom"
+        @bundle="store.buyBundle"
+        @undo="store.undoLast"
       />
 
       <section class="toolbar" aria-label="商品筛选">

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  applyQuantityChanges,
   buyProduct,
   createSpendingState,
   getRemaining,
@@ -7,6 +8,8 @@ import {
   getSpent,
   getQuantity,
   removeProduct,
+  restoreSpendingState,
+  reverseQuantityChanges,
 } from './spendingCore'
 
 const products = [
@@ -37,5 +40,27 @@ describe('spending core', () => {
     expect(getQuantity(state, 'jet')).toBe(0)
     expect(getSpent(state)).toBe(0)
     expect(state.notice).toContain('余额不足')
+  })
+
+  it('applies quantity changes atomically and can reverse them', () => {
+    const state = createSpendingState(products, 5000)
+    const changes = [{ productId: 'phone', quantity: 3 }]
+
+    expect(applyQuantityChanges(state, changes)).toBe(true)
+    expect(getQuantity(state, 'phone')).toBe(3)
+    expect(reverseQuantityChanges(state, changes)).toBe(true)
+    expect(getQuantity(state, 'phone')).toBe(0)
+
+    expect(applyQuantityChanges(state, [{ productId: 'phone', quantity: 5 }])).toBe(false)
+    expect(getQuantity(state, 'phone')).toBe(0)
+  })
+
+  it('restores only valid quantities within the original balance', () => {
+    const restored = restoreSpendingState(products, 5000, {
+      quantities: { phone: 2, missing: 9, jet: 1 },
+    })
+
+    expect(restored.quantities).toEqual({ phone: 2 })
+    expect(getRemaining(restored)).toBe(2600)
   })
 })

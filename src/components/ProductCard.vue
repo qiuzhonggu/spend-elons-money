@@ -1,5 +1,6 @@
 <script setup>
 import { formatCompactCurrency, formatCurrency } from '../utils/money'
+import { handleProductImageError, resolveProductImage } from '../utils/productImage'
 
 defineProps({
   product: {
@@ -17,12 +18,19 @@ defineProps({
 })
 
 defineEmits(['buy', 'buyMany', 'buyMax', 'remove'])
+
+const fallbackImage = resolveProductImage('/products/fallback.webp')
 </script>
 
 <template>
   <article class="product-card">
     <div class="product-image-wrap">
-      <img :src="product.image" :alt="product.name" loading="lazy" />
+      <img
+        :src="resolveProductImage(product.image)"
+        :alt="product.name"
+        loading="lazy"
+        @error="handleProductImageError($event, fallbackImage)"
+      />
       <span>{{ product.category }}</span>
     </div>
     <div class="product-content">

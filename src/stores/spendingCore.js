@@ -52,3 +52,52 @@ export function removeProduct(state, productId) {
   state.notice = '已减少一件商品。'
   return true
 }
+
+export function applyQuantityChanges(state, changes) {
+  if (!Array.isArray(changes) || changes.length === 0) return false
+
+  const totals = new Map()
+  for (const change of changes) {
+    if (!Number.isInteger(change.quantity) || change.quantity === 0) return false
+    if (!state.products.some((product) => product.id === change.productId)) return false
+    totals.set(change.productId, (totals.get(change.productId) || 0) + change.quantity)
+  }
+
+  let spendDelta = 0
+  for (const [productId, quantity] of totals) {
+    const nextQuantity = getQuantity(state, productId) + quantity
+    if (nextQuantity < 0) return false
+    const product = state.products.find((item) => item.id === productId)
+    spendDelta += product.price * quantity
+  }
+
+  if (spendDelta > getRemaining(state)) return false
+
+  for (const [productId, quantity] of totals) {
+    const nextQuantity = getQuantity(state, productId) + quantity
+    if (nextQuantity === 0) delete state.quantities[productId]
+    else state.quantities[productId] = nextQuantity
+  }
+  return true
+}
+
+export function reverseQuantityChanges(state, changes) {
+  return applyQuantityChanges(
+    state,
+    changes.map((change) => ({ ...change, quantity: -change.quantity })),
+  )
+}
+
+export function restoreSpendingState(products, initialBalance, snapshot) {
+  const state = createSpendingState(products, initialBalance)
+  const quantities = snapshot?.quantities
+  if (!quantities || typeof quantities !== 'object' || Array.isArray(quantities)) return state
+
+  for (const product of products) {
+    const quantity = quantities[product.id]
+    if (!Number.isInteger(quantity) || quantity <= 0) continue
+    applyQuantityChanges(state, [{ productId: product.id, quantity }])
+  }
+  state.notice = ''
+  return state
+}

@@ -34,7 +34,7 @@
 - [ ] 编写资源审计测试，要求所有图片路径匹配 `/products/<id>.webp`、文件非空，且前 12 字节满足 RIFF/WEBP 魔数。
 - [ ] 运行 `npm test -- src/data/products.test.js`，确认因远程 URL 失败。
 - [ ] 创建 `scripts/localize-product-images.mjs`：读取原始 JSON，以 URL 为键缓存到 `os.tmpdir()`；对每个唯一 URL 执行 `spawnSync('curl', ['--fail', '--fail-early', '--location', '--retry', '3', '--output', tempPath, url])`，非 0 立即 `process.exit(1)`；对每个商品执行 `spawnSync('cwebp', ['-quiet', '-resize', '800', '0', '-q', '82', cachedPath, '-o', 'public/products/<id>.webp'])`，非 0 立即退出；最后逐个读取前 12 字节校验 RIFF/WEBP 魔数并输出 110/110。
-- [ ] 若 `cwebp` 不存在，运行 `brew install webp`；随后运行 `node scripts/localize-product-images.mjs`，要求输出 105 个下载源和 110 个有效商品文件。
+- [ ] 审计 105 个唯一 URL，用同品类有效来源替换 6 个失效 URL；随后运行 `node scripts/localize-product-images.mjs`，要求输出 100 个有效下载源和 110 个有效商品文件。
 - [ ] 将 JSON 图片字段改为本地路径，生成本地占位图。
 - [ ] 运行资源测试，确认 110 个商品全部通过。
 - [ ] 提交资源变更：`git add scripts/localize-product-images.mjs public/products src/data/products.json src/data/products.test.js && git commit -m "feat(资源): 将商品图片全部本地化"`。
